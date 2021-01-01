@@ -1,4 +1,5 @@
 #! /usr/bin/env lua
+
 --[[--
 Main command line interface to execute library
 functions
@@ -10,7 +11,8 @@ For Eg.
 ```bash
 $ t sys init
 ```
-will run the `init` function in `lib.sys` module
+will run the `init` function in `modules.*.sys` module
+iterating over each directory, one at a time
 
 To pass arguments to the functions, you can just
 append them to the command line and they will appear
@@ -21,12 +23,14 @@ $ t sys init hello world
 ```
 is equivalent to calling:
 ```lua
-local sys = require ("lib.sys")
+local sys = require ("modules.diri.sys")
 sys.init("hello","world")
 ```
+for all instances of diri in the modules directory
+
+Need to make documentation more clear
 @script t
 ]]
-
 path_to_binary = arg[0]
 path_to_binary_directory = string.gsub(path_to_binary, '/+t$', '')
 
@@ -43,19 +47,47 @@ local function help_exit(inp)
     os.exit(1)
 end
 
-if #arg < 2 then help_exit("Insufficient Arguments") end
+if #arg < 2 then
+    help_exit("Insufficient Arguments")
+end
 
-local modname = "lib." .. arg[1]
-local ok, mod = pcall(require,modname)
-if not ok then help_exit("Module Does not exist") end
+-- get directories in modules folder
+local cmd = 'cd ' .. path_to_binary_directory .. "/modules && find -maxdepth 1 -mindepth 1 -type d"
+local cmd_run = io.popen(cmd)
+local modules_string = cmd_run:read('*a')
+cmd_run:close()
+
+local modules_table = {}
+for i, v in modules_string:gmatch('[^\n]+') do
+    local modname_temp = i:gsub('^%./', '')
+    table.insert(modules_table, modname_temp)
+end
+
+-- check for the existence of the module in all directories
+local mod = nil
+for i, v in ipairs(modules_table) do
+    local modname = "modules." .. v .. "." .. arg[1]
+    local ok, mod_load = pcall(require, modname)
+    if ok then
+        mod = mod_load
+        break
+    end
+end
+
+-- if no module is loaded, mod will be empty
+if mod == nil then
+    help_exit("Module Does not exist")
+end
 
 -- Implementing Help for all modules
 mod.help = function()
     print("Functions Available:\n")
-    for k,v in pairs(mod) do
+    for k, v in pairs(mod) do
         print(k)
     end
 end
 local func = mod[arg[2]]
-if not func  then help_exit("Function does not exist") end
-func(table.unpack(arg,3))
+if not func then
+    help_exit("Function does not exist")
+end
+func(table.unpack(arg, 3))
