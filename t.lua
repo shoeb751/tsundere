@@ -27,7 +27,15 @@ sys.init("hello","world")
 @script t
 ]]
 
-package.path = package.path .. ";/home/yui/data/work/Tsundere/?.lua"
+path_to_binary = arg[0]
+path_to_binary_directory = string.gsub(path_to_binary, '/+t$', '')
+
+-- there might be problems with finding the proper path,
+-- but that will just lead to the script to fail rather
+-- than run random code. No not adding a check to see if
+-- the path we get is proper
+
+package.path = package.path .. ";" .. path_to_binary_directory .. "/?.lua"
 
 local function help_exit(inp)
     local out = inp or "Help"
