@@ -1,6 +1,8 @@
 title = 'Tsundere'
 project = 'Tsundere'
 format = 'markdown'
+file = { '.' , exclude = { 'modules', 'lib'}}
+dir = 'docs'
 full_description = [[
 This is a command line automation tool that I built to
 make repeating command line invocations unnecessary.
