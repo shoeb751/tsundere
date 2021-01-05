@@ -52,7 +52,7 @@ if #arg < 2 then
 end
 
 -- get directories in modules folder
-local cmd = 'cd ' .. path_to_binary_directory .. "/modules && find -maxdepth 1 -mindepth 1 -type d"
+local cmd = 'cd ' .. path_to_binary_directory .. "/mods && find -maxdepth 1 -mindepth 1 -type d"
 local cmd_run = io.popen(cmd)
 local modules_string = cmd_run:read('*a')
 cmd_run:close()
@@ -66,7 +66,7 @@ end
 -- check for the existence of the module in all directories
 local mod = nil
 for i, v in ipairs(modules_table) do
-    local modname = "modules." .. v .. "." .. arg[1]
+    local modname = "mods." .. v .. "." .. arg[1]
     local ok, mod_load = pcall(require, modname)
     if ok then
         mod = mod_load
