@@ -52,7 +52,7 @@ if #arg < 2 then
 end
 
 -- get directories in modules folder
-local cmd = 'cd ' .. path_to_binary_directory .. "/mods && find -maxdepth 1 -mindepth 1 -type d"
+local cmd = 'cd ' .. path_to_binary_directory .. "/mods && find . -maxdepth 1 -mindepth 1 -type d"
 local cmd_run = io.popen(cmd)
 local modules_string = cmd_run:read('*a')
 cmd_run:close()
