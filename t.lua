@@ -31,8 +31,8 @@ for all instances of diri in the modules directory
 Need to make documentation more clear
 @script t
 ]]
-path_to_binary = arg[0]
-path_to_binary_directory = string.gsub(path_to_binary, '/+t$', '')
+local path_to_binary = arg[0]
+local path_to_binary_directory = string.gsub(path_to_binary, '/+t$', '')
 
 -- there might be problems with finding the proper path,
 -- but that will just lead to the script to fail rather
