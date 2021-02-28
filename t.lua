@@ -41,6 +41,8 @@ local path_to_binary_directory = string.gsub(path_to_binary, '/+t$', '')
 
 package.path = package.path .. ";" .. path_to_binary_directory .. "/?.lua"
 
+-- local helper functions
+
 local function help_exit(inp)
     local out = inp or "Help"
     print(out)
