@@ -32,7 +32,11 @@ Need to make documentation more clear
 @script t
 ]]
 local path_to_binary = arg[0]
-local path_to_binary_directory = string.gsub(path_to_binary, '/+t$', '')
+local cmd ="realpath " .. arg[0]
+local cmd_run = io.popen(cmd)
+local path_to_binary = cmd_run:read('*a'):gsub('\n$','')
+cmd_run:close()
+local path_to_binary_directory = string.gsub(path_to_binary, '/+t.lua$', '')
 
 -- there might be problems with finding the proper path,
 -- but that will just lead to the script to fail rather
