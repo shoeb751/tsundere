@@ -47,11 +47,23 @@ package.path = package.path .. ";" .. path_to_binary_directory .. "/?.lua"
 
 -- local helper functions
 
+HELPTEXT=[[
+Usage:
+    t <module-name> <function-name> [<arg1> <arg2> ...]
+For eg.
+    t test get_repos shoeb751
+    Will run get_repos("shoeb751") contained in test.lua
+    in the first sequential dir in the mods directory
+]]
+
 local function help_exit(inp)
-    local out = inp or "Help"
-    print(out)
+    local out = inp or "Unknown Error"
+    print("ERROR: " .. out)
+    print(HELPTEXT)
     os.exit(1)
 end
+
+-- Check for proper invocation
 
 if #arg < 2 then
     help_exit("Insufficient Arguments")
