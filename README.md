@@ -11,11 +11,22 @@ For documentation, visit https://github.shoeb.pw/tsundre
    ```
 2) Add it to your PATH - without this you will have to use absolute path
    of the `t` binary
-3) Clone some modules to `mods` dir: 
-   `mkdir mods && cd mods && git clone https://github.com/shoeb751/tsundere_basic_mod.git testmod`
-4) Call the module using t <modname> <function_name> [<func_arg_1> <func_arg_2> ...]
-   For eg. `./t test get_repos shoeb751`
-5) You should be able to use help for a module by running: `./t test help`
+3) Clone some modules to `mods` dir:
+   ``` 
+   mkdir mods && cd mods && git clone https://github.com/shoeb751/tsundere_basic_mod.git testmod
+   ```
+4) Call the module using
+   ```
+   t <modname> <function_name> [<func_arg_1> <func_arg_2> ...]
+   ```
+   For eg.
+   ```
+   ./t test get_repos shoeb751
+   ```
+5) You should be able to use help for a module by running: 
+   ```
+   ./t test help
+   ```
 6) Note that to run the test, you will need luasocket and luasec libraries
    installed as they are not included in this project.
 
