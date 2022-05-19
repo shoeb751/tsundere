@@ -5,7 +5,10 @@ For documentation, visit https://github.shoeb.pw/tsundre
 
 ## Getting Started:
 
-1) Clone this repo: `git clone https://github.com/shoeb751/tsundere.git && cd tsundere`
+1) Clone this repo:
+   ```
+   git clone https://github.com/shoeb751/tsundere.git && cd tsundere
+   ```
 2) Add it to your PATH - without this you will have to use absolute path
    of the `t` binary
 3) Clone some modules to `mods` dir: 
