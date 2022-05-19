@@ -31,6 +31,7 @@ for all instances of diri in the modules directory
 Need to make documentation more clear
 @script t
 ]]
+__DEBUG = os.getenv("LUA_DEBUG") or false
 local path_to_binary = arg[0]
 local cmd ="realpath " .. arg[0]
 local cmd_run = io.popen(cmd)
@@ -89,6 +90,10 @@ for i, v in ipairs(modules_table) do
     if ok then
         mod = mod_load
         break
+    else
+        if __DEBUG then
+            print(ok,mod_load)
+        end
     end
 end
 
