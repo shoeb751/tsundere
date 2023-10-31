@@ -33,9 +33,9 @@ Need to make documentation more clear
 ]]
 __DEBUG = os.getenv("LUA_DEBUG") or false
 local path_to_binary = arg[0]
-local cmd ="realpath " .. arg[0]
+local cmd = "realpath " .. arg[0]
 local cmd_run = io.popen(cmd)
-local path_to_binary = cmd_run:read('*a'):gsub('\n$','')
+local path_to_binary = cmd_run:read('*a'):gsub('\n$', '')
 cmd_run:close()
 local path_to_binary_directory = string.gsub(path_to_binary, '/+t.lua$', '')
 
@@ -48,7 +48,7 @@ package.path = package.path .. ";" .. path_to_binary_directory .. "/?.lua"
 
 -- local helper functions
 
-HELPTEXT=[[
+HELPTEXT = [[
 Usage:
     t <module-name> <function-name> [<arg1> <arg2> ...]
 For eg.
@@ -64,8 +64,23 @@ local function help_exit(inp)
     os.exit(1)
 end
 
--- Check for proper invocation
 
+-- override for invoking the command using different names and tying the name to specific functions
+local binary_name = string.match(arg[0], '[^/]+$')
+
+-- local binary_override_table = {
+--     red = function ()
+--         table.insert(arg, 1, "redQ")
+--     end
+-- }
+
+local binary_override_table = require("lib/binoverride")
+
+if binary_override_table[binary_name] then
+    binary_override_table[binary_name]()
+end
+
+-- Check for proper invocation
 if #arg < 2 then
     help_exit("Insufficient Arguments")
 end
@@ -82,17 +97,29 @@ for i, v in modules_string:gmatch('[^\n]+') do
     table.insert(modules_table, modname_temp)
 end
 
+
+
 -- check for the existence of the module in all directories
 local mod = nil
+
+-- keeping a copy of the package path
+local ppath = package.path
 for i, v in ipairs(modules_table) do
     local modname = "mods." .. v .. "." .. arg[1]
+    -- change package path to allow module load
+    -- Update path to add the loaded modules dir
+    package.path = table.concat({
+        ppath,
+        path_to_binary_directory .. "/mods/" .. v .. "/?.lua",
+        path_to_binary_directory .. "/mods/" .. v .. "/?/init.lua" }, ";")
     local ok, mod_load = pcall(require, modname)
     if ok then
         mod = mod_load
+
         break
     else
         if __DEBUG then
-            print(ok,mod_load)
+            print(ok, mod_load)
         end
     end
 end
@@ -106,9 +133,24 @@ end
 mod.help = function()
     print("Functions Available:\n")
     for k, v in pairs(mod) do
-        print(k)
+        if __DEBUG then
+            print("---")
+            print(k)
+            print("--")
+            print(mod.info(k))
+            print("-")
+        end
+        print(k .. ": " .. tostring(mod.info(k) or nil))
     end
 end
+
+-- Implementing coditional info for all modules
+if not mod.info then
+    mod.info = function()
+        return "No info"
+    end
+end
+
 local func = mod[arg[2]]
 if not func then
     help_exit("Function does not exist")
