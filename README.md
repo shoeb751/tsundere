@@ -1,7 +1,7 @@
 # Tsundre
 
 A tool to create shell automation sequences using lua
-For documentation, visit https://github.shoeb.pw/tsundre
+For documentation, visit https://github.shoeb.pw/tsundere/
 
 ## Getting Started:
 

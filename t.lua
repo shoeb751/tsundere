@@ -4,14 +4,38 @@
 Main command line interface to execute library
 functions
 
+This script expects the following directory structure:
+
+```
+├── lib
+│   ├── binoverride.lua
+│   ├── http.lua
+│   ├── json.lua
+|   ...
+├── mods
+│   ├── 01_main
+|   ...
+├── t -> t.lua
+└── t.lua
+
+```
+
+`mods` directory contains a list of directories that will be called *Collection*.
+Each *Collection* contains lua files, each containing a lua module.
+
+`lib` directory contains a list of lua files containing universal modules that are
+either needed by the `t` script, or by modules in the Collection.
+
+TODO: Convention to add dependedncy listing for modules in *Collection*s
+
 This script has been written in such a
 way that you should be able to execute moudules
-in lib by just scoping them on command line
+in `mods` by just scoping them on command line
 For Eg.
 ```bash
 $ t sys init
 ```
-will run the `init` function in `modules.*.sys` module
+will run the `init` function in `mods.*.sys` module
 iterating over each directory, one at a time
 
 To pass arguments to the functions, you can just
@@ -26,7 +50,7 @@ is equivalent to calling:
 local sys = require ("modules.diri.sys")
 sys.init("hello","world")
 ```
-for all instances of diri in the modules directory
+for all instances of diri in the `mods` directory
 
 Need to make documentation more clear
 @script t
