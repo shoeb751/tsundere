@@ -3,7 +3,7 @@ pkgs.stdenv.mkDerivation rec {
   pname = "tsundere";
   version = "v2024-09-18";
 
-  src = builtins.fetchZip {
+  src = builtins.fetchzip {
      url =
        "https://github.com/shoeb751/tsundere/archive/refs/tags/${version}.zip";
      sha256 = "0k4g1l95d2c3fc1bn21pky8r2jzsd1wznm6n2jss2bn4agpfv8g6";
