@@ -1,17 +1,12 @@
 { pkgs }:
 pkgs.stdenv.mkDerivation rec {
   pname = "tsundere";
-  version = "v2024-11-30";
-  modDir = "/Users/shoeb/Z/r/t_mods";
+  version = "v2024-09-18";
 
-  # src = builtins.fetchTarball {
-  #   url =
-  #     "https://github.com/shoeb751/tsundere/archive/refs/tags/${version}.tar.gz";
-  #   sha256 = "0k4g1l95d2c3fc1bn21pky8r2jzsd1wznm6n2jss2bn4agpfv8g6";
-  # };
-  src = builtins.fetchGit {
-    url = "https://github.com/shoeb751/tsundere.git";
-    ref = "master";
+  src = builtins.fetchZip {
+     url =
+       "https://github.com/shoeb751/tsundere/archive/refs/tags/${version}.zip";
+     sha256 = "0k4g1l95d2c3fc1bn21pky8r2jzsd1wznm6n2jss2bn4agpfv8g6";
   };
 
   libsrc = builtins.fetchTarball {
