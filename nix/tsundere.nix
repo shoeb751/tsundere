@@ -6,7 +6,7 @@ pkgs.stdenv.mkDerivation rec {
   src = builtins.fetchTarball {
      url =
        "https://github.com/shoeb751/tsundere/archive/refs/tags/${version}.zip";
-     sha256 = "0k4g1l95d2c3fc1bn21pky8r2jzsd1wznm6n2jss2bn4agpfv8g6";
+     sha256 = "11za74p5gqzmn3yyknjyfzanv0z7q830yvzignvmbgsm8ibpzjkg";
   };
 
   libsrc = builtins.fetchTarball {
